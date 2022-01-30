@@ -38,7 +38,7 @@ class _EditSoundScreenState extends State<EditSoundScreen> {
   void initState() {
     super.initState();
     audioPlayer = AudioPlayer();
-    if(store.sound != null){
+    if(store.sound != ''){
       File file = File(store.sound);
       _absolutePathOfAudio = file.path;
       _nameAudio = widget.subEspecie.specie;
@@ -111,35 +111,26 @@ class _EditSoundScreenState extends State<EditSoundScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: PRIMARY),
+                  style: ElevatedButton.styleFrom(
+                      primary: _absolutePathOfAudio == null ? PRIMARY : Colors.red
+                  ),
                   child: Text(
-                    _absolutePathOfAudio == null ? "Selecionar audio" : "Selecionado",
+                    _absolutePathOfAudio == null ? "Selecionar audio" : "Remover audio",
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () {
-                    openAudioPicker();
+                    if(_absolutePathOfAudio == null){
+                      openAudioPicker();
+                    } else {
+                      setState(() {
+                        _absolutePathOfAudio = null;
+                        _nameAudio = null;
+                      });
+                      store.setSound('');
+                      store.setSoundName(_nameAudio);
+                    }
                   },
                 ),
-                if(_absolutePathOfAudio != null)...[
-                  SizedBox(width: 10),
-                  SizedBox(
-                    width: 40,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.red
-                      ),
-                      onPressed: (){
-                        setState(() {
-                          _absolutePathOfAudio = null;
-                          _nameAudio = null;
-                        });
-                        store.setSound(_absolutePathOfAudio);
-                        store.setSoundName(_nameAudio);
-                      },
-                      child: Text('X'),
-                    ),
-                  )
-                ]
               ],
             ),
             Padding(

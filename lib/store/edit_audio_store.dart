@@ -9,7 +9,7 @@ class EditAudioStore = _EditAudioStore with _$EditAudioStore;
 abstract class _EditAudioStore with Store {
 
   _EditAudioStore({this.subEspecie}) {
-    sound = subEspecie.sound == '' ? null : subEspecie.sound;
+    sound = subEspecie.sound ?? '';
   }
 
   final SubEspecie subEspecie;
@@ -26,9 +26,6 @@ abstract class _EditAudioStore with Store {
   @action
   void setSound(String value) => sound = value;
 
-  @computed
-  bool get soundValid => sound != null;
-
   @observable
   String soundName;
 
@@ -36,20 +33,7 @@ abstract class _EditAudioStore with Store {
   void setSoundName(String value) => soundName = value;
 
   @computed
-  bool get soundNameValid => soundName != null;
-
-  @computed
-  bool get formValid =>
-          soundValid &&
-          soundNameValid;
-  @computed
-  Function get sendPressed => formValid ? _send : null;
-
-  @observable
-  bool showErrors = false;
-
-  @action
-  void invalidSendPressed() => showErrors = true;
+  Function get sendPressed => _send;
 
   @observable
   String error;

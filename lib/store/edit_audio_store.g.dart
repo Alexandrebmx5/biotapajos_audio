@@ -9,27 +9,6 @@ part of 'edit_audio_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$EditAudioStore on _EditAudioStore, Store {
-  Computed<bool> _$soundValidComputed;
-
-  @override
-  bool get soundValid =>
-      (_$soundValidComputed ??= Computed<bool>(() => super.soundValid,
-              name: '_EditAudioStore.soundValid'))
-          .value;
-  Computed<bool> _$soundNameValidComputed;
-
-  @override
-  bool get soundNameValid =>
-      (_$soundNameValidComputed ??= Computed<bool>(() => super.soundNameValid,
-              name: '_EditAudioStore.soundNameValid'))
-          .value;
-  Computed<bool> _$formValidComputed;
-
-  @override
-  bool get formValid =>
-      (_$formValidComputed ??= Computed<bool>(() => super.formValid,
-              name: '_EditAudioStore.formValid'))
-          .value;
   Computed<Function> _$sendPressedComputed;
 
   @override
@@ -80,21 +59,6 @@ mixin _$EditAudioStore on _EditAudioStore, Store {
   set soundName(String value) {
     _$soundNameAtom.reportWrite(value, super.soundName, () {
       super.soundName = value;
-    });
-  }
-
-  final _$showErrorsAtom = Atom(name: '_EditAudioStore.showErrors');
-
-  @override
-  bool get showErrors {
-    _$showErrorsAtom.reportRead();
-    return super.showErrors;
-  }
-
-  @override
-  set showErrors(bool value) {
-    _$showErrorsAtom.reportWrite(value, super.showErrors, () {
-      super.showErrors = value;
     });
   }
 
@@ -187,29 +151,14 @@ mixin _$EditAudioStore on _EditAudioStore, Store {
   }
 
   @override
-  void invalidSendPressed() {
-    final _$actionInfo = _$_EditAudioStoreActionController.startAction(
-        name: '_EditAudioStore.invalidSendPressed');
-    try {
-      return super.invalidSendPressed();
-    } finally {
-      _$_EditAudioStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 groupId: ${groupId},
 sound: ${sound},
 soundName: ${soundName},
-showErrors: ${showErrors},
 error: ${error},
 loading: ${loading},
 saveSub: ${saveSub},
-soundValid: ${soundValid},
-soundNameValid: ${soundNameValid},
-formValid: ${formValid},
 sendPressed: ${sendPressed}
     ''';
   }

@@ -122,40 +122,6 @@ class SubEspecie {
       storage.ref('gs://appbiotapajos-3d160.appspot.com/species/');
 
   Future<void> save(SubEspecie subEspecie) async {
-    Map<String, dynamic> data = {
-      'specie_similar': subEspecie.specieSimilar,
-      'specie_similar_en': subEspecie.specieSimilarEn,
-      'color': subEspecie.color,
-      'color_en': subEspecie.colorEn,
-      'howKnow': subEspecie.howKnow,
-      'howKnow_en': subEspecie.howKnowEn,
-      'locations': subEspecie.locations,
-      'locations_en': subEspecie.locationsEn,
-      'nome': subEspecie.nome,
-      'nome_en': subEspecie.nomeEn,
-      'reproduction': subEspecie.reproduction,
-      'reproduction_en': subEspecie.reproductionEn,
-      'family': subEspecie.family,
-      'family_en': subEspecie.familyEn,
-      'specie': subEspecie.specie,
-      'specie_en': subEspecie.specieEn,
-      'group': subEspecie.group,
-      'group_en': subEspecie.groupEn,
-      'youKnow': subEspecie.youKnow,
-      'youKnow_en': subEspecie.youKnowEn,
-      'activity': subEspecie.activity,
-      'activity_en': subEspecie.activityEn,
-      'where_live': subEspecie.whereLive,
-      'where_live_en': subEspecie.whereLiveEn,
-      if(subEspecie.img.isEmpty) 'img': [],
-      'venom': subEspecie.venom,
-      'diet': subEspecie.diet,
-      'venom_en': subEspecie.venomEn,
-      'diet_en': subEspecie.dietEn,
-      'credit_image': subEspecie.creditImage,
-      'credit_image_en': subEspecie.creditImageEn,
-    };
-
     if (subEspecie.id != null) {
       String soundUrl = '';
       if (subEspecie.soundName != null) {
@@ -166,8 +132,10 @@ class SubEspecie {
             TaskSnapshot s = await uploadTask;
             String downloadUrl = await s.ref.getDownloadURL();
             soundUrl = downloadUrl;
-          } else if (subEspecie.sound.contains(subEspecie.sound)) {
+          } else if (subEspecie.sound != '' && subEspecie.sound.contains(subEspecie.sound)) {
             soundUrl = subEspecie.sound.toString();
+          } else if (subEspecie.sound == '') {
+            soundUrl = '';
       }
 
         DocumentReference firestoreRef =
@@ -177,7 +145,6 @@ class SubEspecie {
             .doc(subEspecie.id);
 
         await firestoreRef.update({'sound': soundUrl});
-        await firestoreRef.update(data);
       }
     }
 
